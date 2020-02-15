@@ -1,15 +1,32 @@
 package com.javaguru.shoppinglist.domain;
 
+
+
+import main.java.com.javaguru.shoppinglist.domain.Category;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
+
+    public static Long counter = 0L;
+    public static final Product emptyProduct = new Product("", new BigDecimal(0), new BigDecimal(0));
     private Long id;
     private String name;
     private BigDecimal price;
-    private String category;
+    private Category category;
     private BigDecimal discount;
     private String description;
+
+    public Product(String name, BigDecimal priceValue, BigDecimal discountValue) {
+        this.name = name;
+        price = priceValue;
+        discount = discountValue;
+        id = counter.longValue();
+        counter++;
+        category = Category.UNSSIGNED;
+
+    }
 
     public Long getId() { return id; }
 
@@ -23,9 +40,9 @@ public class Product {
 
     public void setPrice(BigDecimal price) { this.price = price; }
 
-    public String getCategory() { return category; }
+    public Category getCategory() { return category; }
 
-    public void setCategory(String category) { this.category = category; }
+    public void setCategory(Category category) { this.category = category; }
 
     public BigDecimal getDiscount() { return discount; }
 
@@ -42,15 +59,12 @@ public class Product {
         Product product = (Product) o;
         return Objects.equals(id, product.id) &&
                 Objects.equals(name, product.name) &&
-                Objects.equals(price, product.price) &&
-                Objects.equals(category, product.category) &&
-                Objects.equals(discount, product.discount) &&
-                Objects.equals(description, product.description);
+                Objects.equals(category, product.category);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(id, name, price, category, discount, description);
+        return Objects.hash(id, name,  category);
     }
 
     @Override
